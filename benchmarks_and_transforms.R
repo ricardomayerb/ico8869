@@ -1,11 +1,5 @@
 library(fpp2)
-# library(readxl)
-# imacec_nm <- read_excel("Cuadro_1.xls", 
-#                        sheet = "ExportCuadro",
-#                        range = "A3:B81")
-# pib <- read_excel("Cuadro_2.xls", 
-#                         sheet = "ExportCuadro",
-#                         range = "A3:B29")
+
 
 ausbeer
 
@@ -41,9 +35,45 @@ autoplot(goog200) +
   
 
 
+dframe <- cbind(Monthly = milk,
+                DailyAverage = milk/monthdays(milk))
+
+autoplot(dframe, facet=TRUE) +
+  xlab("Years") + ylab("Pounds") +
+  ggtitle("Milk production per cow")
+
+lambda <- BoxCox.lambda(elec)
+lambda
+
+autoplot(elec)
+autoplot(BoxCox(elec,lambda))
 
 
+fc <- rwf(eggs, drift=TRUE, lambda=0, h=50, level=80)
+fc2 <- rwf(eggs, drift=TRUE, lambda=0, h=50, level=80,
+           biasadj=TRUE)
+autoplot(eggs) +
+  autolayer(fc, series="Simple back transformation") +
+  autolayer(fc2, series="Bias adjusted", PI=FALSE) +
+  guides(colour=guide_legend(title="Forecast"))
+
+autoplot(goog200) +
+  xlab("Day") + ylab("Closing Price (US$)") +
+  ggtitle("Google Stock (daily ending 6 December 2013)")
+
+res <- residuals(naive(goog200))
+
+autoplot(res) + xlab("Day") + ylab("") +
+  ggtitle("Residuals from naïve method")
+
+gghistogram(res) + ggtitle("Histogram of residuals")
+
+ggAcf(res) + ggtitle("ACF of residuals")
 
 
+Box.test(res, lag=10, fitdf=0)
+
+Box.test(res,lag=10, fitdf=0, type="Lj")
 
 
+checkresiduals(naive(goog200))
