@@ -58,7 +58,7 @@ autoplot(window(ausbeer, start=1992)) +
   ggtitle("Forecasts for quarterly beer production") +
   guides(colour=guide_legend(title="Forecast"))
 
-
+accuracy(beerfit3, beer3)
 
 
 
