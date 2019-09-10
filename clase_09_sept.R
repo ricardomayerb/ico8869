@@ -121,6 +121,29 @@ mase_3
 
 # arima 
 fit_ari <- auto.arima(beer2)
+fit_ari_2 <- auto.arima(beer2, approximation = FALSE)
+fit_ari_3 <- auto.arima(beer2, stepwise = FALSE)
+fit_ari_4 <- auto.arima(beer2, stepwise = FALSE, approximation = FALSE)
+fit_ari
+fit_ari_2
+fit_ari_3
+fit_ari_4
 fc_ari <- forecast(fit_ari,h = 10)
 fe_ari <- beer3 - fc_ari$mean
 fe_ari
+
+autoplot(window(ausbeer, start=1992)) +
+  autolayer(beerfit1, series="Mean", PI=FALSE) +
+  autolayer(beerfit2, series="Naïve", PI=FALSE) +
+  autolayer(beerfit3, series="Seasonal naïve", PI=FALSE) +
+  autolayer(fc_ari, series="arima", PI=FALSE) +
+  xlab("Year") + ylab("Megalitres") +
+  ggtitle("Forecasts for quarterly beer production") +
+  guides(colour=guide_legend(title="Forecast"))
+
+autoplot(window(ausbeer, start=1992)) +
+  autolayer(beerfit3, series="Seasonal naïve", PI=FALSE) +
+  autolayer(fc_ari, series="arima", PI=FALSE) +
+  xlab("Year") + ylab("Megalitres") +
+  ggtitle("Forecasts for quarterly beer production") +
+  guides(colour=guide_legend(title="Forecast"))
