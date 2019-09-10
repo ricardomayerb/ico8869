@@ -78,6 +78,7 @@ cbind(diff_beer2_longer, diff_beer2)
 sum_ad_beer2 <- sum(abs(diff_beer2), na.rm = TRUE) 
 sum_ad_beer2
 this_T <- length(beer2)
+
 denom <- (1/(this_T-1)) * sum_ad_beer2
 denom
 
@@ -86,15 +87,40 @@ sum_ad_beer2_season <- sum(abs(diff_beer2_season), na.rm = TRUE)
 denom_season <- (1/(this_T-4)) * sum_ad_beer2_season
 denom_season 
 
-q_js <- fe_fit1/denom
-q_js
+q_j_1 <- fe_fit1/denom
+q_j_1
 
-q_js_season <- fe_fit1/denom_season
-q_js_season
+q_js_1_season <- fe_fit1/denom_season
+q_js_1_season
 
 # MASE
-mase_1_non_season <- mean(abs(q_js))
-mase_1 <- mean(abs(q_js_season))
+mase_1_non_season <- mean(abs(q_j_1))
+mase_1 <- mean(abs(q_j_1_season))
 mase_1_non_season
 mase_1
 accuracy(beerfit1, beer3)
+
+
+# for fit 3
+fe_fit3 <- beer3 - beerfit3$mean 
+pfe_fit3 <- 100*fe_fit3/beer3 
+q_j_3_season <- fe_fit3/denom_season
+
+mae_3 <- mean(abs(fe_fit3))
+rmse_3 <- sqrt(mean(fe_fit3^2))
+mape_3 <- mean(abs(pfe_fit3)) 
+mase_3 <- mean(abs(q_j_3_season))
+
+mae_3
+rmse_3
+mape_3
+mase_3
+
+
+
+
+# arima 
+fit_ari <- auto.arima(beer2)
+fc_ari <- forecast(fit_ari,h = 10)
+fe_ari <- beer3 - fc_ari$mean
+fe_ari
