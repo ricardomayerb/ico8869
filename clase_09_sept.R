@@ -1,5 +1,5 @@
 library(fpp2)
-# General idea: evaluate forecast accuracy:
+# General id  ea: evaluate forecast accuracy:
 
 # First example from the book
 # Second, two series from BCCh
@@ -28,11 +28,14 @@ length(beer2) # is 64
 length(beer3) # is 10
 
 autoplot(cbind(ausbeer, beer2, beer3), facets = TRUE)
-beerfit1 <- meanf(beer2,h=10)
-beerfit2 <- rwf(beer2,h=10)
-beerfit3 <- snaive(beer2,h=10)
+
+beerfit1 <- meanf(beer2, h=10)
+beerfit2 <- rwf(beer2, h=10)
+beerfit3 <- snaive(beer2, h=10)
+beerfit_arima <- auto.arima(beer2)
 
 accuracy(beerfit1, beer3)
+
 accuracy(beerfit2, beer3)
 accuracy(beerfit3, beer3)
 
